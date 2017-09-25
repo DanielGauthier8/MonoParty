@@ -6,7 +6,7 @@
 package monoparty;
 
 /**
- * 
+ *  
  * @author NoEntiendo Members: Michael Iula, Jeremy Peacock, Daniel Gauthier, Michael Tyler, Cassie Archetto, Jesus Lopez
  */
 public class MonoParty {
