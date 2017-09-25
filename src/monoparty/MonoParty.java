@@ -16,7 +16,7 @@ public class MonoParty {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //I'm got access to this shit!!!!
+       
     }
     
 }
