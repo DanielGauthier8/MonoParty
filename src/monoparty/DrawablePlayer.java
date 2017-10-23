@@ -1,10 +1,14 @@
-package monoparty;
+
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
+/**
+ *
+ * @author Daniel Gauthier
+ */
 public class DrawablePlayer extends Player implements DrawableInterface{
     //Data Fields............................
     //The location of the drawable object
@@ -16,9 +20,7 @@ public class DrawablePlayer extends Player implements DrawableInterface{
     //The color of the players shirt
     private Color shirtColor;
     //The body width of the student.  Never changes
-    private final int BODY_WIDTH;
-    //The height of the student.  Never changes
-    private final int BODY_HEIGHT;
+    private final int BODY_SIZE;
     //The number of wins by the student
     private int wins = 0;
     
@@ -38,8 +40,7 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         yVelocity = 0;
         //Color of the shirt
         shirtColor = theColor;
-        BODY_WIDTH = 150;
-        BODY_HEIGHT = 150;
+        BODY_SIZE = 10;
     }
     
     //Methods.................................
@@ -138,38 +139,38 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         //Sets the shirts color
         pen.setColor(shirtColor);
         // Body
-        pen.fillRect(location.x, location.y, BODY_WIDTH, BODY_HEIGHT);
+        pen.fillRect(location.x, location.y, BODY_SIZE, BODY_SIZE);
         //Draws the book using the pen object
         //Changed to Backpack
         pen.setColor(shirtColor);
         // Left Arm
-        pen.fillRect(location.x-40, location.y, 40, BODY_HEIGHT + 50);
+        pen.fillRect(location.x-BODY_SIZE*40/150, location.y, BODY_SIZE - BODY_SIZE*110/150, BODY_SIZE + BODY_SIZE*50/150);
         // Right Arm
-        pen.fillRect(location.x+BODY_WIDTH, location.y, 40, BODY_HEIGHT + 50);
+        pen.fillRect(location.x+BODY_SIZE, location.y, BODY_SIZE - BODY_SIZE*110/150, BODY_SIZE + BODY_SIZE*50/150);
 
         // Outline arms for visibility
         pen.setColor(Color.BLACK);
-        pen.drawRect(location.x-40, location.y, 40, BODY_HEIGHT+ 50);
-        pen.drawRect(location.x+BODY_WIDTH, location.y, 40, BODY_HEIGHT +50 );
+        pen.drawRect(location.x-BODY_SIZE*40/150, location.y, BODY_SIZE - BODY_SIZE*110/150, BODY_SIZE+ BODY_SIZE*50/150);
+        pen.drawRect(location.x+BODY_SIZE, location.y, BODY_SIZE - BODY_SIZE*110/150, BODY_SIZE + BODY_SIZE*50/150);
         
         // Pants Top
         pen.setColor(Color.DARK_GRAY);
-        pen.fillRect(location.x, location.y+BODY_HEIGHT, 150, 100);
+        pen.fillRect(location.x, location.y+BODY_SIZE, BODY_SIZE, BODY_SIZE - BODY_SIZE*50/150);
         // Left Leg      
-        pen.fillRect(location.x, location.y+BODY_HEIGHT+100, 50, 200);
+        pen.fillRect(location.x, location.y+BODY_SIZE+BODY_SIZE*10/15, BODY_SIZE - BODY_SIZE*10/15, BODY_SIZE + BODY_SIZE*1/3);
         // Right Leg
-        pen.fillRect(location.x+100, location.y+BODY_HEIGHT+100, 50, 200);
+        pen.fillRect(location.x+BODY_SIZE*10/15, location.y+BODY_SIZE+BODY_SIZE*10/15, BODY_SIZE - BODY_SIZE*10/15, BODY_SIZE +BODY_SIZE*1/3);
         
         // Draw Head
         pen.setColor(new Color(0xf1c27d));
-        pen.fillOval(location.x+20, location.y-125, 110, 150);
+        pen.fillOval(location.x, location.y-BODY_SIZE*125/150, BODY_SIZE, BODY_SIZE);
         pen.setColor(Color.BLACK);
         //The left eye
-        pen.fillOval(location.x+51, location.y-100, 15, 15);
+        pen.fillOval(location.x+BODY_SIZE*1/3, location.y - BODY_SIZE*60/100, BODY_SIZE/10, BODY_SIZE/10);
         //The right eye
-        pen.fillOval(location.x+81, location.y-100, 15, 15);
+        pen.fillOval(location.x+BODY_SIZE*9/15, location.y - BODY_SIZE*60/100, BODY_SIZE/10, BODY_SIZE/10);
         //Draw the mouth
-        pen.drawArc(location.x+45, location.y-60, 60, 60, 0, -180);
+        pen.fillOval(location.x+BODY_SIZE*60/150, location.y-BODY_SIZE*6/15, BODY_SIZE/5, BODY_SIZE/5);
         pen.setColor(Color.DARK_GRAY);
         //Creates font
         pen.setFont(new Font("Monospaced", Font.BOLD, 20));
