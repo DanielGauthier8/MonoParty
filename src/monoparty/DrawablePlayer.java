@@ -5,10 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
-/**
- *
- * @author Daniel Gauthier
- */
 public class DrawablePlayer extends Player implements DrawableInterface{
     //Data Fields............................
     //The location of the drawable object
