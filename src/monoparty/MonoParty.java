@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monoparty;
+import javax.swing.JFrame;
 
 /**
  *  
@@ -14,9 +14,19 @@ public class MonoParty {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-       
+public static void main(String[] args) throws InterruptedException
+    {
+        JFrame projectWindow = new JFrame(); //Create window
+        projectWindow.setSize(1024, 800); // width x height 
+        projectWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close action
+        projectWindow.setTitle("MonoParty"); //Title
+        // This is the panel for this Lab
+        DrawingPanel playPanel = new DrawingPanel(); 
+        //Add the pannel
+        projectWindow.add(playPanel); 
+        
+        //Make the window visable
+        projectWindow.setVisible(true); 
     }
     
 }
