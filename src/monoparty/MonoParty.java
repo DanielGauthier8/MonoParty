@@ -27,6 +27,7 @@ public static void main(String[] args) throws InterruptedException
         
         //Make the window visable
         projectWindow.setVisible(true); 
+        playPanel.playGame();
     }
     
 }
