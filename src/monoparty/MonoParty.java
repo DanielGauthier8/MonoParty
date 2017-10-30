@@ -13,15 +13,29 @@ public class MonoParty {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
      */
 public static void main(String[] args) throws InterruptedException
     {
+        JFrame introWindow = new JFrame(); //Create window
+        introWindow.setSize(1280, 720); // width x height 
+        introWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close action
+        introWindow.setTitle("MonoParty"); //Title
+        // This is the panel for this Lab
+        BoardPanel introPanel = new BoardPanel(); 
+        //Add the pannel
+        introWindow.add(introPanel); 
+        
+        //Make the window visable
+        introWindow.setVisible(true); 
+        
+        
         JFrame projectWindow = new JFrame(); //Create window
-        projectWindow.setSize(1024, 800); // width x height 
+        projectWindow.setSize(1280, 720); // width x height 
         projectWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close action
         projectWindow.setTitle("MonoParty"); //Title
         // This is the panel for this Lab
-        DrawingPanel playPanel = new DrawingPanel(); 
+        BoardPanel playPanel = new BoardPanel(); 
         //Add the pannel
         projectWindow.add(playPanel); 
         
@@ -29,5 +43,4 @@ public static void main(String[] args) throws InterruptedException
         projectWindow.setVisible(true); 
         playPanel.playGame();
     }
-    
 }
