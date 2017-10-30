@@ -1,22 +1,23 @@
 
 
 import java.awt.Color;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+//import javax.swing.JLabel;
 
 /**
  *
  * @author NoEntiendo Members: Michael Iula, Jeremy Peacock, Daniel Gauthier, Michael Tyler, Cassie Archetto, Jesus Lopez
  */
 
-public class DrawingPanel extends JPanel{
+public class BoardPanel extends JPanel{
     //Student to be used
     private DrawablePlayer thePlayer;
     //The bot
@@ -27,31 +28,76 @@ public class DrawingPanel extends JPanel{
     private final Font myFont;
     //Button to throw the heaviest button
     private final JButton addOneToSpace;
-    DrawingPanel()
+    //The current row of the the player(0-3)
+    private int playerRow;
+    //The current row of the bot (0-3)
+    private int botRow;
+    //The current spot of the the player(0-8)
+    private int playerSport;
+    //The current spot of the bot (0-8)
+    private int botSpot;
+    //If the game is playing
+    private boolean gamePlay = true;
+    //array of x postions
+    private int[] xPositions;
+    //array of y positons
+    private int[] yPositions;
+    private final int spaceSize = 20;
+    BoardPanel()
     {
-    //The player
+        //The player
         thePlayer = new DrawablePlayer(100,100, Color.GREEN);
+        //Player Velocity
+        thePlayer.setVelocity(1, 0);
         //The computer player
         theBot = new DrawablePlayer(200,100,Color.RED);
         myFont = new Font("Times New Roman",Font.PLAIN,28);
+        //The posible y positions
+        xPositions = new int[36]; 
+        //The possible xPositions
+        yPositions = new int[36];
+        //First row
+        for (int i = 0; i < 9; i++)
+        {
+        xPositions[i] = 10;
+        yPositions[i] = i * 20;
+        }
+        //second row
+        for (int i = 10; i < 8; i++)
+        {
+        xPositions[i] = 10;
+        yPositions[i] = i * 20;
+        }
+        //third row
+        for (int i = 19; i < 26; i++)
+        {
+        xPositions[i] = 10;
+        yPositions[i] = 10;
+        }
+        //fourth row
+        for (int i = 27; i < 36; i++)
+        {
+        xPositions[i] = 10;
+        yPositions[i] = i * 20;
+        }
         //Buttons
-        //Testing adding to player location
+        //Testing adding to player location;
         addOneToSpace = new JButton("Add");
     }
     
     @Override
     public void paintComponent(Graphics pen)
     {
-        
         //Paint over because Windows
         super.paintComponent(pen);
         //Draw the player
         thePlayer.draw(pen);
-        //The bot
+        //Game going
+        gamePlay = true;
         //theBot.draw(pen);
         pen.setColor(Color.BLACK);
         pen.setFont(myFont);
-        pen.drawString("MonoParty", 360, 450);
+        pen.drawString("Welcome to MonoParty", 360, 450);
         //After game play update player location
         //theBot.moveTo(playerLocaton(theBot));
     }
@@ -59,34 +105,36 @@ public class DrawingPanel extends JPanel{
     public void playGame() throws InterruptedException
     {
         theButtons();
+        //Create a timer
+        int timer = 0;
+        //Get local time
+        LocalDateTime time = LocalDateTime.now();
+        //Get the second of the local time
+        int sec = time.getSecond();
+        
+        //While the timer is less than 1
+        while(timer < 2)
+        {
+            //move the object
+            thePlayer.move();
+            //get the time again
+            time = LocalDateTime.now();
+            //paint the scene again
+            repaint();
+            //System.out.print(myBall.toString());
+            //If the seconds don't match, time must have been a second
+            if(time.getSecond() != sec)
+            {
+               //Increment the timer
+               timer++;
+            }
+            //Set the sec to the new "current" second
+            sec = time.getSecond();
+            //Sleep to slow the animation down a bit
+            Thread.sleep(10);
+        }
     }
     
-    private Point playerLocaton(DrawablePlayer thatPlayer)
-    {
-        Point thePoint = new Point();
-        thePlace = thatPlayer.getPlace();
-        if(thePlace >= 10)
-        {
-            thePoint.x = (thePlace*100) + 100;
-            thePoint.y = 100; 
-        }
-        else if(thePlace >= 20)
-        {
-            thePoint.x = thePlace; 
-            thePoint.y = 1000;  
-        }
-        if(thePlace >= 30)
-        {
-            thePoint.x = thePlace;
-            thePoint.y = thePlace;
-        }
-        else
-        {
-            thePoint.x = thePlace;
-            thePoint.y = thePlace; 
-        }
-        return thePoint;
-    }
     //Listen for clicks
     private class ButtonListener implements ActionListener
         {
@@ -100,7 +148,8 @@ public class DrawingPanel extends JPanel{
                 if(command.equals("Add"))
                 {
                     thePlayer.changeScoreBy(1);
-                    thePlayer.moveTo(playerLocaton(thePlayer));
+   
+                    
                 }
                 //Draw the book according to what is being clicked on
                 repaint();
