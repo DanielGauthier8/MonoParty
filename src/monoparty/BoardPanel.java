@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
 //import javax.swing.JLabel;
@@ -18,6 +19,10 @@ import javax.swing.JButton;
  */
 
 public class BoardPanel extends JPanel{
+    //The current displayed screen
+    private int scene;
+    //The bot
+    private DrawableIntro theIntro;
     //Student to be used
     private DrawablePlayer thePlayer;
     //The bot
@@ -45,6 +50,13 @@ public class BoardPanel extends JPanel{
     private final int spaceSize = 20;
     BoardPanel()
     {
+        //Set the scene to intro screen
+        //scene 0 = intro screen
+        //scene 1 = board
+        //scene 2 = etc
+        scene = 0;
+        //The intro screen
+        theIntro = new DrawableIntro();
         //The player
         thePlayer = new DrawablePlayer(100,100, Color.GREEN);
         //Player Velocity
@@ -88,23 +100,28 @@ public class BoardPanel extends JPanel{
     @Override
     public void paintComponent(Graphics pen)
     {
+        
         //Paint over because Windows
         super.paintComponent(pen);
+        if (scene == 0)
+        {
+            
+            theIntro.draw(pen);
+            theButtons();
+        }
+        /*
         //Draw the player
         thePlayer.draw(pen);
         //Game going
         gamePlay = true;
         //theBot.draw(pen);
-        pen.setColor(Color.BLACK);
-        pen.setFont(myFont);
-        pen.drawString("Welcome to MonoParty", 360, 450);
+        
         //After game play update player location
-        //theBot.moveTo(playerLocaton(theBot));
+        //theBot.moveTo(playerLocaton(theBot));*/
     }
     
     public void playGame() throws InterruptedException
     {
-        theButtons();
         //Create a timer
         int timer = 0;
         //Get local time
@@ -148,8 +165,6 @@ public class BoardPanel extends JPanel{
                 if(command.equals("Add"))
                 {
                     thePlayer.changeScoreBy(1);
-   
-                    
                 }
                 //Draw the book according to what is being clicked on
                 repaint();
