@@ -5,10 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
-/**
- *
- * @author Daniel Gauthier
- */
 public class DrawablePlayer extends Player implements DrawableInterface{
     //Data Fields............................
     //The location of the drawable object
@@ -40,7 +36,7 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         yVelocity = 0;
         //Color of the shirt
         shirtColor = theColor;
-        BODY_SIZE = 10;
+        BODY_SIZE = 30;
     }
     
     //Methods.................................
