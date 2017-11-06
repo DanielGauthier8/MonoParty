@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monoparty;
+
 
 public class Player {
     //Data fields...............
@@ -63,6 +63,14 @@ public class Player {
         return score;
     }
     
+    /**
+     * Accessor method for player's current health status
+     * @return player's health data field
+     */    
+    public int getPlace()
+    {
+        return place;
+    }
     
     // Mutator Methods  
     /**
