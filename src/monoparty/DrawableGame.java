@@ -10,7 +10,7 @@ import java.awt.Point;
  * and open the template in the editor.
  */
 
-public class DrawableGame extends Game implements DrawableInterface{
+public class DrawableGame implements DrawableInterface{
 
     @Override
     public int getX() {
