@@ -22,12 +22,7 @@ public static void main(String[] args) throws InterruptedException
         introWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close action
         introWindow.setTitle("MonoParty"); //Title
         // This is the panel for this Lab
-        BoardPanel introPanel = new BoardPanel(); 
-        //Add the pannel
-        introWindow.add(introPanel); 
-        
-        //Make the window visable
-        introWindow.setVisible(true); 
+        BoardPanel introPanel = new BoardPanel();
         
         
         JFrame projectWindow = new JFrame(); //Create window
