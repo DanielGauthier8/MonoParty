@@ -13,14 +13,19 @@ import java.awt.Graphics;
  *
  * @author Daniel Gauthier
  */
-public class DrawableIntro extends Intro implements DrawableInterface{
-
+public class DrawableIntro implements DrawableInterface{
+    //Start x
+    private int theX;
+    //Start y
+    private int theY;
      //The max x
     private int maxX;
     //The max y
     private int maxY;
     //Font variable
-    private final Font myFont;
+    private final Font headings;
+    //Font variable
+    private final Font text;
     //The main game color
     private final Color primaryColor;
     //Secondary color
@@ -46,25 +51,28 @@ public class DrawableIntro extends Intro implements DrawableInterface{
         accentColor = new Color(217,133,59);
         whitePoint = new Color(236,236,234);
         
-        
-        myFont = new Font("Times New Roman",Font.PLAIN,28);
+        theX = 0;
+        theY = 0;
+        headings = new Font("Times New Roman",Font.PLAIN,28);
+        text = new Font("Times New Roman",Font.PLAIN,16);
         maxX = theMaxX;
         maxY = theMaxY;
     }
     
     @Override
     public int getX() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return theX;
     }
 
     @Override
     public int getY() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return theY;
     }
 
     @Override
     public void moveTo(int absX, int absY) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        theX = absX;
+        theY = absY;
     }
 
     @Override
@@ -104,20 +112,63 @@ public class DrawableIntro extends Intro implements DrawableInterface{
 
     @Override
     public void draw(Graphics pen) {
+        DrawableButton startButton = new DrawableButton(theX + 1000, 590, "Start");
+        DrawableButton easyButton = new DrawableButton(theX + 550, 110, "Easy");
+        DrawableButton mediumButton = new DrawableButton(theX + 550, 160, "Medium");
+        DrawableButton hardButton = new DrawableButton(theX + 550, 210, "Hard");
+        DrawableButton characterOneButton = new DrawableButton(theX + 110, 110, "Johnny G");
+        DrawableButton characterTwoButton = new DrawableButton(theX + 110, 160, "Patricia Maximum");
+        DrawableButton characterThreeButton = new DrawableButton(theX + 110, 210, "Brad Brown");
+        DrawableButton characterFourButton = new DrawableButton(theX + 110, 260, "Manny Pianomouth");
+        DrawableButton loadButton = new DrawableButton(theX + 950, 300, "Load Previous Game");
+        
+        //Background
         pen.setColor(primaryColor);
-            pen.fillRect(0, 0, maxX, maxY);
-            
+            pen.fillRect(theX + 0, 0, maxX, maxY);
+      
         //Areas
         pen.setColor(secondaryColor);
-            pen.fillRect(100, 50, 300, 200);
-            pen.fillRect(400, 50, 300, 200);
-            pen.fillRect(100, 450, 1000, 200);
-        
-           // pen.fillRect(100, 400, 700, 200);
+        //Top rectangles
+            pen.fillRect(theX + 90, 50, 300, 380);
+            pen.fillRect(theX + 500, 50, 300, 380);
+            pen.fillRect(theX + 900, 50, 300, 380);
+            //Low
+            pen.fillRect(theX + 115, 450, 1060, 210);
+        pen.setColor(whitePoint);
+            //The entering box
+            pen.fillRect(theX + 950, 120, 200, 110);
+            
         pen.setColor(textColor);
-            pen.setFont(myFont);
-            pen.drawString("Welcome to MonoParty!", (720/2)+50, 30);
-            pen.drawString("Instructions:", 128, 428);
+            pen.setFont(headings);
+            //welcome
+            pen.drawString("Welcome to MonoParty!", theX + 520, 30);
+            //Instruction heading
+            pen.drawString("Instructions:", theX + 132, 485);
+            //Character choice heading
+            pen.drawString("Choose Player:", theX + 125, 80);
+            //Bot difficulty heading
+            pen.drawString("Difficulty:", theX + 535, 80);
+            //Load previous game? heading
+            pen.drawString("Load Previous Game:", theX + 935, 80);
+            pen.setFont(text);
+            pen.drawString("The object of the game is to earn more points than the computer. You can earn points by landing on a *POINTS* space and by playing mini-games. You can lose points", theX + 142, 515);
+            pen.drawString("by landing on a *DEDUCTION* space. When it is your turn to move around the board, click on the die. After your turn is completed, the computer will automatically", theX + 142, 530);
+            pen.drawString("take it’s turn.\n You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n", theX + 142, 544);
+            pen.drawString("GOOD LUCK!", theX + 142, 562);
+            
+            //Button Time
+            //Start Button
+            startButton.draw(pen);
+            //Load button
+            loadButton.draw(pen);
+            //Levels Buttons
+            easyButton.draw(pen);
+            mediumButton.draw(pen);
+            hardButton.draw(pen);
+            //Player buttons
+            characterOneButton.draw(pen);
+            characterTwoButton.draw(pen);
+            characterThreeButton.draw(pen);
+            characterFourButton.draw(pen);
     }
-    
 }
