@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
 //import javax.swing.JLabel;
@@ -18,11 +19,25 @@ import javax.swing.JButton;
  * @author NoEntiendo Members: Michael Iula, Jeremy Peacock, Daniel Gauthier, Michael Tyler, Cassie Archetto, Jesus Lopez
  */
 
-public class BoardPanel extends JPanel{
+public class BoardPanel extends JPanel implements MouseListener
+{
+    int theX;
+    DrawableButton startButton = new DrawableButton(theX + 1000, 590,  "Start");
+    DrawableButton easyButton = new DrawableButton(theX + 550, 110,-10, "Easy");
+    DrawableButton mediumButton = new DrawableButton(theX + 550, 160,-10, "Medium");
+    DrawableButton hardButton = new DrawableButton(theX + 550, 210, -10,"Hard");
+    DrawableButton characterOneButton = new DrawableButton(theX + 110, 110, "Johnny G");
+    DrawableButton characterTwoButton = new DrawableButton(theX + 110, 160, 30, "Patricia Maximum");
+    DrawableButton characterThreeButton = new DrawableButton(theX + 110, 210, "Brad Brown");
+    DrawableButton characterFourButton = new DrawableButton(theX + 110, 260, 20, "Manny Pianomouth");
+    DrawableButton loadButton = new DrawableButton(theX + 950, 300, 35, "Load Previous Game");
+    
     //The current displayed screen
     private int scene;
     //The bot
     private DrawableIntro theIntro;
+    //
+    private DrawableGame theGame;
     //Student to be used
     private DrawablePlayer thePlayer;
     //The bot
@@ -32,7 +47,7 @@ public class BoardPanel extends JPanel{
     //Font variable
     private final Font myFont;
     //Button to throw the heaviest button
-    private final JButton addOneToSpace;
+    //private final JButton addOneToSpace;
     //The current row of the the player(0-3)
     private int playerRow;
     //The current row of the bot (0-3)
@@ -50,6 +65,7 @@ public class BoardPanel extends JPanel{
     private final int spaceSize = 20;
     BoardPanel()
     {
+        theX = 0;
         //Set the scene to intro screen
         //scene 0 = intro screen
         //scene 1 = board
@@ -57,6 +73,8 @@ public class BoardPanel extends JPanel{
         scene = 0;
         //The intro screen
         theIntro = new DrawableIntro();
+        //The board
+        theGame = new DrawableGame();
         //The player
         thePlayer = new DrawablePlayer(100,100, Color.GREEN);
         //Player Velocity
@@ -92,9 +110,9 @@ public class BoardPanel extends JPanel{
         xPositions[i] = 10;
         yPositions[i] = i * 20;
         }
-        //Buttons
-        //Testing adding to player location;
-        addOneToSpace = new JButton("Add");
+        
+        addMouseListener(this); 
+        
     }
     
     @Override
@@ -107,17 +125,33 @@ public class BoardPanel extends JPanel{
         {
             
             theIntro.draw(pen);
-            theButtons();
+            //theButtons();//Start Button
+            startButton.draw(pen);
+            //Load button
+            loadButton.draw(pen);
+            //Levels Buttons
+            easyButton.draw(pen);
+            mediumButton.draw(pen);
+            hardButton.draw(pen);
+            //Player buttons
+            characterOneButton.draw(pen);
+            characterTwoButton.draw(pen);
+            characterThreeButton.draw(pen);
+            characterFourButton.draw(pen);
         }
-        /*
-        //Draw the player
-        thePlayer.draw(pen);
-        //Game going
-        gamePlay = true;
-        //theBot.draw(pen);
+        else
+        {
+            //Draw the player
+            thePlayer.draw(pen);
+            //Game going
+            gamePlay = true;
+            theBot.draw(pen);
+
+            //After game play update player location
+            //theBot.moveTo(playerLocaton(theBot));
+        }
         
-        //After game play update player location
-        //theBot.moveTo(playerLocaton(theBot));*/
+        
     }
     
     public void playGame() throws InterruptedException
@@ -151,34 +185,84 @@ public class BoardPanel extends JPanel{
             Thread.sleep(10);
         }
     }
-    
-    //Listen for clicks
-    private class ButtonListener implements ActionListener
+
+    @Override
+    public void mouseClicked(MouseEvent mouseClick) {
+        /*
+            loadButton.draw(pen);
+            //Levels Buttons
+            easyButton.draw(pen);
+            mediumButton.draw(pen);
+            hardButton.draw(pen);
+            //Player buttons
+            characterOneButton.draw(pen);
+            characterTwoButton.draw(pen);
+            characterThreeButton.draw(pen);
+            characterFourButton.draw(pen);*/
+        //Set the mouse location as the point
+        Point mouseLocation = mouseClick.getPoint();
+        //More buttons
+        if (scene == 0)
         {
-            //When a button is clicked the command is put in this method
-            @Override
-            public void actionPerformed(ActionEvent buttonClick) 
+            if(startButton.isInside(mouseLocation.x, mouseLocation.y))
             {
-                //Put the command in a String
-                String command = buttonClick.getActionCommand();
-                //See if the button 1 was clicked and has books in it
-                if(command.equals("Add"))
-                {
-                    thePlayer.changeScoreBy(1);
-                }
-                //Draw the book according to what is being clicked on
-                repaint();
+                scene = 1;
+            }
+            else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            //The difficulty
+            else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            //Character buttons
+            else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            else if(characterThreeButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
+            }
+            else if(characterFourButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 1;
             }
         }
-    private void theButtons()
-    {
-        //Use the button listener object
-        ButtonListener listener = new ButtonListener();
-        //Give the value of the button to be sent to method
-        addOneToSpace.setActionCommand("Add");
-        //Listen for the click
-        addOneToSpace.addActionListener(listener);
-        //Draw the button
-        add(addOneToSpace);
     }
+
+    @Override
+    public void mousePressed(MouseEvent mouseClick) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseClick) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseClick) {
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseClick) {
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
