@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class BoardSpaces extends Board{
+public class BoardSpaces{
 	private int spaceXSize, spaceYSize;
 	private Color spaceColor;
 	private int x,y;
