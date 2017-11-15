@@ -23,8 +23,6 @@ public static void main(String[] args) throws InterruptedException
         introWindow.setTitle("MonoParty"); //Title
         // This is the panel for this Lab
         BoardPanel introPanel = new BoardPanel();
-        
-        
         JFrame projectWindow = new JFrame(); //Create window
         projectWindow.setSize(1280, 720); // width x height 
         projectWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close action
