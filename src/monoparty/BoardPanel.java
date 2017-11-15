@@ -32,6 +32,18 @@ public class BoardPanel extends JPanel implements MouseListener
     DrawableButton characterFourButton = new DrawableButton(theX + 110, 260, 20, "Manny Pianomouth");
     DrawableButton loadButton = new DrawableButton(theX + 950, 300, 35, "Load Previous Game");
     
+    static String INCPOINTS = "You’ve landed on a *POINTS* space. You gained 5 point.";
+    static String DECPOINTS = "Oh no! You’ve landed on a *DEDUCTION*  space. You lose 5 points.";
+    static String MATCH = "In this mini-game, you will be trying to find the matches in the flipped over cards on the screen."
+      + "If you click on two different cards and pictures under the cards are the exact same, you have found a match and earn a point."
+      + "If the pictures do not match, the cards will flip back over. The mini-game will end when the timer stops."
+      + "The number of points earned will be added to the overall score.";
+    static String PONG = " ";
+    static String DODGER = "This is a single player game. In this mini-game, objects will fall from the top of the screen to the bottom."
+      + "You will have to avoid being hit by the fallen objects. The timer will give you *30* seconds to dodge as many objects as you can."
+      + "When the timer ends, you will earn *2* points per object dodged.";
+    static String RHYTHM = " ";
+    
     //The current displayed screen
     private int scene;
     //The bot
