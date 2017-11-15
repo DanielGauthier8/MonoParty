@@ -2,6 +2,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +14,7 @@ import java.awt.Graphics;
  *
  * @author Daniel Gauthier
  */
-public class DrawableIntro implements DrawableInterface{
+public class DrawableIntro extends Settings implements DrawableInterface{
     //Start x
     private int theX;
     //Start y
@@ -36,7 +37,9 @@ public class DrawableIntro implements DrawableInterface{
     private final Color textColor;
     //White point
     private final Color whitePoint;
-    
+     //The decriptions
+    private final String[] descriptions = new String[] {"Johnny lives a life on the computer.  If it’s not posted on social media did it even happen?  While all of his profile pictures look staged, he would never admit it.","Patricia lives a busy life.  Whether she is leading the office meeting or picking up her kids from their soccer practice, her kindness is infectious.  Her only negative is her “may I speak to the manager” haircut.","Brad is a full time baseball coach.  If he could describe himself in five words they would be: Sarcastic, Political, Narcissistic, Poignant, and Extroverted.","Everybody loves Manny.  His daily job is a boat captain, but he still has dreams of becoming a pilot. Not the most athletic person in the world."};;
+   
     
     public DrawableIntro()
     {
@@ -45,6 +48,7 @@ public class DrawableIntro implements DrawableInterface{
     
     public DrawableIntro(int theMaxX, int theMaxY)
     {
+        //descriptions = new String[] {"Johnny lives a life on the computer.  If it’s not posted on social media did it even happen?  While all of his profile pictures look staged, he would never admit it.","Patricia lives a busy life.  Whether she is leading the office meeting or picking up her kids from their soccer practice, her kindness is infectious.  Her only negative is her “may I speak to the manager” haircut.","Brad is a full time baseball coach.  If he could describe himself in five words they would be: Sarcastic, Political, Narcissistic, Poignant, and Extroverted.","Everybody loves Manny.  His daily job is a boat captain, but he still has dreams of becoming a pilot. Not the most athletic person in the world."};
         primaryColor = new Color(85,140,137);
         textColor = new Color(64,64,64);
         secondaryColor = new Color(116,175,173);
@@ -112,15 +116,7 @@ public class DrawableIntro implements DrawableInterface{
 
     @Override
     public void draw(Graphics pen) {
-        DrawableButton startButton = new DrawableButton(theX + 1000, 590, "Start");
-        DrawableButton easyButton = new DrawableButton(theX + 550, 110, "Easy");
-        DrawableButton mediumButton = new DrawableButton(theX + 550, 160, "Medium");
-        DrawableButton hardButton = new DrawableButton(theX + 550, 210, "Hard");
-        DrawableButton characterOneButton = new DrawableButton(theX + 110, 110, "Johnny G");
-        DrawableButton characterTwoButton = new DrawableButton(theX + 110, 160, "Patricia Maximum");
-        DrawableButton characterThreeButton = new DrawableButton(theX + 110, 210, "Brad Brown");
-        DrawableButton characterFourButton = new DrawableButton(theX + 110, 260, "Manny Pianomouth");
-        DrawableButton loadButton = new DrawableButton(theX + 950, 300, "Load Previous Game");
+        
         
         //Background
         pen.setColor(primaryColor);
@@ -155,20 +151,9 @@ public class DrawableIntro implements DrawableInterface{
             pen.drawString("by landing on a *DEDUCTION* space. When it is your turn to move around the board, click on the die. After your turn is completed, the computer will automatically", theX + 142, 530);
             pen.drawString("take it’s turn.\n You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n", theX + 142, 544);
             pen.drawString("GOOD LUCK!", theX + 142, 562);
+            pen.drawString(descriptions[super.getPlayerChoice()], theX + 152, 582);
             
             //Button Time
-            //Start Button
-            startButton.draw(pen);
-            //Load button
-            loadButton.draw(pen);
-            //Levels Buttons
-            easyButton.draw(pen);
-            mediumButton.draw(pen);
-            hardButton.draw(pen);
-            //Player buttons
-            characterOneButton.draw(pen);
-            characterTwoButton.draw(pen);
-            characterThreeButton.draw(pen);
-            characterFourButton.draw(pen);
+            
     }
 }
