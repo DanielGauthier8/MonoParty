@@ -11,16 +11,16 @@ public class BoardSpaces{
 		
 		spaceXSize = 128;
 		spaceYSize = 72;
-		spaceColor = Color.green;
+		spaceColor = Color.orange;
 		x = 0;
 		y = 0;
 		spaceIdentity = 0;
 	}
 	
-	public BoardSpaces(int xpos, int ypos, Color sColor, int id){
+	public BoardSpaces(int xpos, int ypos, int id){
 		spaceXSize = 128;
 		spaceYSize = 72;
-		spaceColor = sColor;
+		spaceColor = Color.orange;
 		x = xpos;
 		y = ypos;
 		spaceIdentity = id;
