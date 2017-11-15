@@ -2,7 +2,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,7 +37,7 @@ public class DrawableIntro extends Settings implements DrawableInterface{
     //White point
     private final Color whitePoint;
      //The decriptions
-    private final String[] descriptions = new String[] {"Johnny lives a life on the computer.  If it’s not posted on social media did it even happen?  While all of his profile pictures look staged, he would never admit it.","Patricia lives a busy life.  Whether she is leading the office meeting or picking up her kids from their soccer practice, her kindness is infectious.  Her only negative is her “may I speak to the manager” haircut.","Brad is a full time baseball coach.  If he could describe himself in five words they would be: Sarcastic, Political, Narcissistic, Poignant, and Extroverted.","Everybody loves Manny.  His daily job is a boat captain, but he still has dreams of becoming a pilot. Not the most athletic person in the world."};;
+    private final String[] descriptions = new String[] {"","Johnny lives a life on the computer.  If it’s not posted on social media did it even happen?  While all of his profile pictures look staged, he would never admit it.","Patricia lives a busy life.  Whether she is leading the office meeting or picking up her kids from their soccer practice, her kindness is infectious.  Her only negative is her “may I speak to the manager” haircut.","Brad is a full time baseball coach.  If he could describe himself in five words they would be: Sarcastic, Political, Narcissistic, Poignant, and Extroverted.","Everybody loves Manny.  His daily job is a boat captain, but he still has dreams of becoming a pilot. Not the most athletic person in the world."};;
    
     
     public DrawableIntro()
