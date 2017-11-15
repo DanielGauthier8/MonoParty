@@ -63,6 +63,8 @@ public class BoardPanel extends JPanel implements MouseListener
     //array of y positons
     private int[] yPositions;
     private final int spaceSize = 20;
+    //
+    private Settings theSettings;
     BoardPanel()
     {
         theX = 0;
@@ -75,6 +77,8 @@ public class BoardPanel extends JPanel implements MouseListener
         theIntro = new DrawableIntro();
         //The board
         theGame = new DrawableGame();
+        //The game settings
+        theSettings = new Settings();
         //The player
         thePlayer = new DrawablePlayer(100,100, Color.GREEN);
         //Player Velocity
@@ -138,8 +142,28 @@ public class BoardPanel extends JPanel implements MouseListener
             characterTwoButton.draw(pen);
             characterThreeButton.draw(pen);
             characterFourButton.draw(pen);
+            
         }
-        else
+        else if (scene == 1)
+        {
+            
+            theIntro.draw(pen);
+            //theButtons();//Start Button
+            startButton.draw(pen);
+            //Load button
+            loadButton.draw(pen);
+            //Levels Buttons
+            easyButton.draw(pen);
+            mediumButton.draw(pen);
+            hardButton.draw(pen);
+            //Player buttons
+            characterOneButton.draw(pen);
+            characterTwoButton.draw(pen);
+            characterThreeButton.draw(pen);
+            characterFourButton.draw(pen);
+            
+        }
+        else if (scene == 2)
         {
             //Draw the player
             thePlayer.draw(pen);
@@ -202,47 +226,45 @@ public class BoardPanel extends JPanel implements MouseListener
         //Set the mouse location as the point
         Point mouseLocation = mouseClick.getPoint();
         //More buttons
-        if (scene == 0)
+        if(startButton.isInside(mouseLocation.x, mouseLocation.y))
         {
-            if(startButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            //The difficulty
-            else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            //Character buttons
-            else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(characterThreeButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
-            else if(characterFourButton.isInside(mouseLocation.x, mouseLocation.y))
-            {
-                scene = 1;
-            }
+            scene = 2;
         }
+        else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            //scene = 1;
+        }
+        //The difficulty
+        else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setDifficulty(0);
+        }
+        else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setDifficulty(1);
+        }
+        else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setDifficulty(2);
+        }
+        //Character buttons
+        else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setPlayerChoice(1);
+        }
+        else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setPlayerChoice(2);
+        }
+        else if(characterThreeButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setPlayerChoice(3);
+        }
+        else if(characterFourButton.isInside(mouseLocation.x, mouseLocation.y))
+        {
+            theSettings.setPlayerChoice(4);
+        }
+        this.repaint(); 
     }
 
     @Override
