@@ -31,6 +31,8 @@ public class DrawableButton implements DrawableInterface{
     private final int width;
     //The width of the button
     private final int height;
+    //Check and see if the button is clicked 
+    private boolean beenClick;
     
     //Constuctors............................
     //Default constuctor
@@ -38,6 +40,19 @@ public class DrawableButton implements DrawableInterface{
     {
         //Calling the parameterized constuctor
         this(150, 150, "Button");
+    }
+    public DrawableButton(int theX, int theY, int theW, String thText)
+    {
+        whitePoint = new Color(236,236,234);
+        theColor = new Color(217,133,59);
+        text = new Font("Monospaced", Font.BOLD, 20);
+        beenClick = false;
+        
+        //Set the location for the button
+        location = new Point(theX, theY);
+        theText = thText;
+        width = thText.length() * 10 + 2 - theW;
+        height = 40;
     }
     public DrawableButton(int theX, int theY, String thText)
     {
@@ -48,10 +63,9 @@ public class DrawableButton implements DrawableInterface{
         //Set the location for the button
         location = new Point(theX, theY);
         theText = thText;
-        width = thText.length() * 11;
+        width = thText.length() * 10 + 2;
         height = 40;
     }
-    
     //Methods.................................
     //methods implemented from DrawableInterface, javadoc comments are made for those methods below
     //ALL CODE BELOW HAS COMMENTS FOUND IN THE INTERFACE...........................
@@ -137,16 +151,12 @@ public class DrawableButton implements DrawableInterface{
     public void upWins() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    //Returns if the click was inside the button
-    public boolean checkClick(int mouseX, int mouseY)
+   
+    public void flipClick ()
     {
-        if (mouseX >= location.x && mouseY >= location.y && mouseX <= location.x + width && mouseY <= location.y + height)
-        {
-            return true;
-        }
-        return false;
+        beenClick = !beenClick;
     }
+    
     @Override
     public void draw(Graphics pen)
     {             
@@ -158,5 +168,12 @@ public class DrawableButton implements DrawableInterface{
         pen.drawString(theText, location.x + 10, location.y + 21);
         
     }
-
-}
+    
+    public boolean isInside(int mouseX, int mouseY) {
+    return (mouseX >= location.x &&
+            mouseX <= (location.x+width) &&
+            mouseY >= location.y && 
+            mouseY <= (location.y + height));
+};
+    
+} 
