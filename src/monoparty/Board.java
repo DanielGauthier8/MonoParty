@@ -73,7 +73,7 @@ public class Board{
 		}
 		
 		i = 0;
-		x = 1408;
+		x = 1280;
 		
 		while (i < bSpaces.length/4){
 			x = x - 128;
@@ -83,7 +83,7 @@ public class Board{
 		}
 		
 		i = 0;
-		y = 792;
+		y = 720;
 
 		while (i < bSpaces.length/4){
 			y = y - 72;
