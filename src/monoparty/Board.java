@@ -58,7 +58,7 @@ public class Board{
 		
 		while (i < bSpaces.length/4){
 			x = x + 128;
-			bSpaces[j] = new BoardSpaces(x, 0, Color.orange, j);
+			bSpaces[j] = new BoardSpaces(x, 0, j);
 			i++;
 			j ++;
 		}
@@ -67,7 +67,7 @@ public class Board{
 		
 		while (i < bSpaces.length/4){
 			y = y + 72;
-			bSpaces[j] = new BoardSpaces(1152, y, Color.orange, j);
+			bSpaces[j] = new BoardSpaces(1152, y, j);
 			i++;
 			j ++;
 		}
@@ -77,7 +77,7 @@ public class Board{
 		
 		while (i < bSpaces.length/4){
 			x = x - 128;
-			bSpaces[j] = new BoardSpaces(x, 648, Color.orange, j);
+			bSpaces[j] = new BoardSpaces(x, 648, j);
 			i++;
 			j ++;
 		}
@@ -87,7 +87,7 @@ public class Board{
 
 		while (i < bSpaces.length/4){
 			y = y - 72;
-			bSpaces[j] = new BoardSpaces(0, y, Color.orange, j);
+			bSpaces[j] = new BoardSpaces(0, y, j);
 			i++;
 			j ++;
 		}
