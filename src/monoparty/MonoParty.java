@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JFrame;
-
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 /**
  *  
  * @author NoEntiendo Members: Michael Iula, Jeremy Peacock, Daniel Gauthier, Michael Tyler, Cassie Archetto, Jesus Lopez
@@ -35,5 +39,15 @@ public static void main(String[] args) throws InterruptedException
         //Make the window visable
         projectWindow.setVisible(true); 
         playPanel.playGame();
+    
+         // open the sound file as a Java input stream
+        String sound = "monoParty.wav";
+        InputStream in = new FileInputStream(sound);
+
+        // create an audiostream from the inputstream
+        AudioStream audioStream = new AudioStream(in);
+
+        // play the audio clip with the audioplayer class
+        AudioPlayer.player.start(audioStream);
     }
 }
