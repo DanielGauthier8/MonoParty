@@ -36,7 +36,7 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         yVelocity = 0;
         //Color of the shirt
         shirtColor = theColor;
-        BODY_SIZE = 30;
+        BODY_SIZE = 15;
     }
     
     //Methods.................................
@@ -162,9 +162,9 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         pen.fillOval(location.x, location.y-BODY_SIZE*125/150, BODY_SIZE, BODY_SIZE);
         pen.setColor(Color.BLACK);
         //The left eye
-        pen.fillOval(location.x+BODY_SIZE*1/3, location.y - BODY_SIZE*60/100, BODY_SIZE/10, BODY_SIZE/10);
+        pen.fillOval(location.x+BODY_SIZE*1/3, location.y - BODY_SIZE*60/100, BODY_SIZE/5, BODY_SIZE/5);
         //The right eye
-        pen.fillOval(location.x+BODY_SIZE*9/15, location.y - BODY_SIZE*60/100, BODY_SIZE/10, BODY_SIZE/10);
+        pen.fillOval(location.x+BODY_SIZE*9/15, location.y - BODY_SIZE*60/100, BODY_SIZE/5, BODY_SIZE/5);
         //Draw the mouth
         pen.fillOval(location.x+BODY_SIZE*60/150, location.y-BODY_SIZE*6/15, BODY_SIZE/5, BODY_SIZE/5);
         pen.setColor(Color.DARK_GRAY);
