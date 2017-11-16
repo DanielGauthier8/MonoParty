@@ -15,12 +15,11 @@ import java.time.LocalDateTime;
 public class BoardPanel extends JPanel implements MouseListener
 {
     //The Game
-    /*
+    
     private int lastX, lastY; // To keep the mouse location
     private DrawableGame theDrawableGame;
     private BoardSpaces spaces;
-    private Player player;
-    //*/
+    
     int theX;
     DrawableButton startButton = new DrawableButton(theX + 1000, 590,  "Start");
     DrawableButton easyButton = new DrawableButton(theX + 550, 110,-10, "Easy");
@@ -54,6 +53,8 @@ public class BoardPanel extends JPanel implements MouseListener
     private DrawablePlayer thePlayer;
     //The bot
     private DrawablePlayer theBot;
+    //The die object
+    private DrawableDie theDice; 
     //The location
     private int thePlace;
     //Font variable
@@ -88,45 +89,18 @@ public class BoardPanel extends JPanel implements MouseListener
         //The intro screen
         theIntro = new DrawableIntro();
         //The board
-        //theGame = new DrawableGame();
+        theDrawableGame = new DrawableGame();
+        //The Die
+        theDice = new DrawableDie(800,(310));
         //The game settings
         theSettings = new Settings();
         //The player
-        thePlayer = new DrawablePlayer(100,100, Color.GREEN);
+        thePlayer = new DrawablePlayer(20,15, Color.GREEN);
         //Player Velocity
         thePlayer.setVelocity(1, 0);
         //The computer player
-        theBot = new DrawablePlayer(200,100,Color.RED);
+        theBot = new DrawablePlayer(60,15,Color.RED);
         myFont = new Font("Times New Roman",Font.PLAIN,28);
-        //The posible y positions
-        xPositions = new int[36]; 
-        //The possible xPositions
-        yPositions = new int[36];
-        //First row
-        for (int i = 0; i < 9; i++)
-        {
-        xPositions[i] = 10;
-        yPositions[i] = i * 20;
-        }
-        //second row
-        for (int i = 10; i < 8; i++)
-        {
-        xPositions[i] = 10;
-        yPositions[i] = i * 20;
-        }
-        //third row
-        for (int i = 19; i < 26; i++)
-        {
-        xPositions[i] = 10;
-        yPositions[i] = 10;
-        }
-        //fourth row
-        for (int i = 27; i < 36; i++)
-        {
-        xPositions[i] = 10;
-        yPositions[i] = i * 20;
-        }
-        
         addMouseListener(this); 
         
     }
@@ -158,12 +132,13 @@ public class BoardPanel extends JPanel implements MouseListener
                 
                 break;
             case 2:
-                //theDrawableGame.draw(pen);
+                theDrawableGame.draw(pen);
                 //Draw the player
                 thePlayer.draw(pen);
                 //Game going
                 gamePlay = true;
                 theBot.draw(pen);
+                theDice.draw(pen);
                 
                 //After game play update player location
                 //theBot.moveTo(playerLocaton(theBot));
@@ -188,7 +163,7 @@ public class BoardPanel extends JPanel implements MouseListener
         while(timer < 2)
         {
             //move the object
-            thePlayer.move();
+            //thePlayer.move();
             //get the time again
             time = LocalDateTime.now();
             //paint the scene again
@@ -229,7 +204,7 @@ public class BoardPanel extends JPanel implements MouseListener
         }
         else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
         {
-            //scene = 1;
+            scene = 1;
         }
         //The difficulty
         else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
