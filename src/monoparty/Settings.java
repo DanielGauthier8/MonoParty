@@ -14,13 +14,16 @@ public class Settings {
     //Users player index in player array
     private int playerChoice;
     //Current save code
-    private String saveCode;
+    private String passcode;
+    //Passcode
+    private int pXPos, oXPos, pYpos, oYPos, pPoints, oPoints;
     //All the game settings
+    
     public Settings()
     {
         difficulty = 0;
         playerChoice = 0;
-        saveCode = "00000000000";
+        passcode = "00000000000";
     }
     //Methods
     public void updateSaveCode()
@@ -37,11 +40,26 @@ public class Settings {
     {
         return playerChoice;   
     }
-    public String getSaveCode()
+    private String createPasscode()
     {
-        return saveCode;
+        /*
+        pXPos = super.getXPos();
+        pYpos = super.getYPos();
+        oXPos = super.getXPos();
+        oYPos = super.getYPos();
+        pPoints = super.getPoints();
+        oPoints = super.getPoints();
+
+        passcode = "pXpos" + "pYpos" + "oXPos" + "oYPos" + "pPoints" + "oPoints";
+*/
+        return passcode;
     }
-    
+    public String getPasscode(){
+        passcode = createPasscode();
+
+        return passcode;
+                
+    }
     //Setter methods
     public int setDifficulty(int dif)
     {
@@ -56,7 +74,7 @@ public class Settings {
     }
     public String setSaveCode(String code)
     {
-        saveCode = code;
-        return saveCode;
+        passcode = code;
+        return passcode;
     }
 }
