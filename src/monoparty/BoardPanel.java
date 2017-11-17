@@ -17,20 +17,61 @@ public class BoardPanel extends JPanel implements MouseListener
     //The Game
     
     private int lastX, lastY; // To keep the mouse location
-    private DrawableGame theDrawableGame;
+    private final DrawableGame theDrawableGame;
     private BoardSpaces spaces;
     
+    //Change all drawable object X location with one variable
     int theX;
-    DrawableButton startButton = new DrawableButton(theX + 1000, 590,  "Start");
-    DrawableButton easyButton = new DrawableButton(theX + 550, 110,-10, "Easy");
-    DrawableButton mediumButton = new DrawableButton(theX + 550, 160,-10, "Medium");
-    DrawableButton hardButton = new DrawableButton(theX + 550, 210, -10,"Hard");
-    DrawableButton characterOneButton = new DrawableButton(theX + 110, 110, "Johnny G");
-    DrawableButton characterTwoButton = new DrawableButton(theX + 110, 160, 30, "Patricia Maximum");
-    DrawableButton characterThreeButton = new DrawableButton(theX + 110, 210, "Brad Brown");
-    DrawableButton characterFourButton = new DrawableButton(theX + 110, 260, 20, "Manny Pianomouth");
-    DrawableButton loadButton = new DrawableButton(theX + 950, 300, 35, "Load Previous Game");
+    //All buttons
+    private final DrawableButton startButton = new DrawableButton(theX + 1000, 590,  "Start");
+    private final DrawableButton easyButton = new DrawableButton(theX + 530, 110,-10, "Easy");
+    private final DrawableButton mediumButton = new DrawableButton(theX + 530, 160,-10, "Medium");
+    private final DrawableButton hardButton = new DrawableButton(theX + 530, 210, -10,"Hard");
+    private final DrawableButton characterOneButton = new DrawableButton(theX + 120, 110, "Johnny G");
+    private final DrawableButton characterTwoButton = new DrawableButton(theX + 120, 160, 30, "Patricia Maximum");
+    private final DrawableButton characterThreeButton = new DrawableButton(theX + 120, 210, "Brad Brown");
+    private final DrawableButton characterFourButton = new DrawableButton(theX + 120, 260, 20, "Manny Pianomouth");
+    private final DrawableButton loadButton = new DrawableButton(theX + 975, 300, 35, "Load Previous Game");
+    //Fonts 
+    private final Font headings = new Font("Times New Roman",Font.PLAIN,28);
+    private final Font text = new Font("Times New Roman",Font.PLAIN,16);
+    private final Color primaryColor = new Color(85,140,137);
+    private final Color textColor = new Color(64,64,64);
+    private final Color secondaryColor = new Color(116,175,173);
+    private final Color accentColor = new Color(217,133,59);
+    private final Color whitePoint = new Color(236,236,234);
+
+    //Game dialoge
+    private final String[] DIFFICULTY = new String[] { 
+        "Difficulty: Choose Above",
+        "Difficulty: Easy",
+        "Difficulty: Medium",
+        "Difficulty: Hard"
+    };
+    private final String[] DESCRIPTIONS = new String[] {"",
+        "Johnny lives a life on the computer.  If it’s \n"
+        + "not posted on social media did it even \n"
+        + "happen?  While all of his profile pictures \n"
+        + "look staged, he would never admit it.",
+        
+        "Patricia lives a busy life.  Whether she \n"
+        + "is leading the office meeting or picking up \n"
+        + "her kids from their soccer practice, her \n"
+        + "kindness is infectious.  Her only negative \n"
+        + "is her “may I speak to the manager” haircut.",
+        
+        "Brad is a full time baseball coach.  If he \n"
+        + "could describe himself in five words they \n"
+        + "would be: Sarcastic, Political, Narcissistic, \n"
+        + "Poignant, and Extroverted.",
+
+        "Everybody loves Manny.  His daily job is a \n"
+        + "boat captain, but he still has dreams of \n"
+        + "becoming a pilot. Not the most athletic \n"
+        + "person in the world."};;
     
+    
+   
     static String INCPOINTS = "You’ve landed on a *POINTS* space. You gained 5 point.";
     static String DECPOINTS = "Oh no! You’ve landed on a *DEDUCTION*  space. You lose 5 points.";
     static String MATCH = "In this mini-game, you will be trying to find the matches in the flipped over cards on the screen."
@@ -91,7 +132,7 @@ public class BoardPanel extends JPanel implements MouseListener
         //The board
         theDrawableGame = new DrawableGame();
         //The Die
-        theDice = new DrawableDie(800,(310));
+        theDice = new DrawableDie(900,160);
         //The game settings
         theSettings = new Settings();
         //The player
@@ -127,6 +168,10 @@ public class BoardPanel extends JPanel implements MouseListener
                 characterTwoButton.draw(pen);
                 characterThreeButton.draw(pen);
                 characterFourButton.draw(pen);
+                pen.setColor(textColor);
+                drawString(pen,DESCRIPTIONS[theSettings.getPlayerChoice()], 116, 320);
+                pen.setFont(headings);
+                drawString(pen,DIFFICULTY[theSettings.getDifficulty()], 510, 320);
                 break;
             case 1:
                 
@@ -182,6 +227,13 @@ public class BoardPanel extends JPanel implements MouseListener
         }
     }
 
+    //https://stackoverflow.com/questions/4413132/problems-with-newline-in-graphics2d-drawstring
+    void drawString(Graphics g, String text, int x, int y) {
+    for (String line : text.split("\n"))
+        g.drawString(line, x, y += g.getFontMetrics().getHeight());
+}
+    
+    
     @Override
     public void mouseClicked(MouseEvent mouseClick) {
         /*
@@ -209,21 +261,20 @@ public class BoardPanel extends JPanel implements MouseListener
         //The difficulty
         else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
         {
-            theSettings.setDifficulty(0);
+            theSettings.setDifficulty(1);
         }
         else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
         {
-            theSettings.setDifficulty(1);
+            theSettings.setDifficulty(2);
         }
         else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
         {
-            theSettings.setDifficulty(2);
+            theSettings.setDifficulty(3);
         }
         //Character buttons
         else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
         {
             theSettings.setPlayerChoice(1);
-            scene = 1;
         }
         else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
         {
@@ -242,7 +293,7 @@ public class BoardPanel extends JPanel implements MouseListener
 
     @Override
     public void mousePressed(MouseEvent mouseClick) {
-     //          
+     //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
