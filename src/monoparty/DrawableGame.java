@@ -2,11 +2,13 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
 
 
-public class DrawableGame extends Settings implements DrawableInterface{
+public final class DrawableGame extends Settings implements DrawableInterface{
 	private static int boardHeight;
 	private static int boardWidth;
 	private Color boardColor;
@@ -16,6 +18,8 @@ public class DrawableGame extends Settings implements DrawableInterface{
         private final Font headings;
         //Font variable
         private final Font text;
+        //Font variable
+        private final Font title;
         //The main game color
         private final Color primaryColor;
         //Secondary color
@@ -40,7 +44,8 @@ public class DrawableGame extends Settings implements DrawableInterface{
 
             theX = 0;
             theY = 0;
-            headings = new Font("Times New Roman",Font.PLAIN,28);
+            title = new Font("Times New Roman",Font.PLAIN,220);
+            headings = new Font("Times New Roman",Font.PLAIN,50);
             text = new Font("Times New Roman",Font.PLAIN,16);
 		boardHeight = 1280;
 		boardWidth = 720;
@@ -128,12 +133,12 @@ public class DrawableGame extends Settings implements DrawableInterface{
 
     @Override
     public int getX() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return theX;
     }
 
     @Override
     public int getY() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return theY;
     }
 
     @Override
@@ -177,15 +182,29 @@ public class DrawableGame extends Settings implements DrawableInterface{
     }
 
     @Override
-    public void draw(Graphics pen) {
-                
+    public void draw(Graphics pen) { 
+        Graphics2D g2 = (Graphics2D) pen;
         //Background
         pen.setColor(primaryColor);
             pen.fillRect(theX + 0, 0, 1280, 720);
-      
-        for (int j = 0; j < bSpaces.length; j++){
-			bSpaces[j].paint(pen);
-		}
+        AffineTransform at = new AffineTransform();
+        at.setToRotation(Math.toRadians(25), 80, 100);
+            g2.setTransform(at);
+            pen.setColor(textColor);
+            pen.setFont(title);
+            pen.drawString("MonoParty", 200, 160);
+        at.setToRotation(Math.toRadians(0), 150, 120);
+        g2.setTransform(at);
+            pen.setColor(secondaryColor);
+            pen.fillRect(200,440,300,150);
+        pen.setColor(textColor);
+            pen.setFont(headings);
+            pen.drawString("Chance Cards", 213, 530);
+     
+            //Draws all the spaces
+            for (BoardSpaces bSpace : bSpaces) {
+                bSpace.paint(pen);
+            }
+        
     }
-	
 }
