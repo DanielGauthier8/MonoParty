@@ -18,7 +18,7 @@ public class DrawableIntro extends Settings implements DrawableInterface{
     private int theX;
     //Start y
     private int theY;
-     //The max x
+    //The max x
     private int maxX;
     //The max y
     private int maxY;
