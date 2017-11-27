@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +18,11 @@ import java.time.LocalDateTime;
 public class BoardPanel extends JPanel implements MouseListener
 {
     //The Game
-    
+    private boolean playersturn;
     private int lastX, lastY; // To keep the mouse location
     private final DrawableGame theDrawableGame;
-    private BoardSpaces spaces;
+    private BoardSpaces spaceLocations;
+    
     
     //Change all drawable object X location with one variable
     int theX;
@@ -32,6 +36,9 @@ public class BoardPanel extends JPanel implements MouseListener
     private final DrawableButton characterThreeButton = new DrawableButton(theX + 120, 210, "Brad Brown");
     private final DrawableButton characterFourButton = new DrawableButton(theX + 120, 260, 20, "Manny Pianomouth");
     private final DrawableButton loadButton = new DrawableButton(theX + 975, 300, 35, "Load Previous Game");
+    
+    //Game Buttons
+    
     //Fonts 
     private final Font headings = new Font("Times New Roman",Font.PLAIN,28);
     private final Font text = new Font("Times New Roman",Font.PLAIN,16);
@@ -43,10 +50,10 @@ public class BoardPanel extends JPanel implements MouseListener
 
     //Game dialoge
     private final String[] DIFFICULTY = new String[] { 
-        "Difficulty: Choose Above",
-        "Difficulty: Easy",
-        "Difficulty: Medium",
-        "Difficulty: Hard"
+        "",
+        "Easy",
+        "Medium",
+        "Hard"
     };
     private final String[] DESCRIPTIONS = new String[] {"",
         "Johnny lives a life on the computer.  If it’s \n"
@@ -82,13 +89,14 @@ public class BoardPanel extends JPanel implements MouseListener
     static String DODGER = "This is a single player game. In this mini-game, objects will fall from the top of the screen to the bottom."
       + "You will have to avoid being hit by the fallen objects. The timer will give you *30* seconds to dodge as many objects as you can."
       + "When the timer ends, you will earn *2* points per object dodged.";
+    static String INTRO = "You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n" +
+"                                                            Start the game by rolling the dice.  GOOD LUCK!";
     static String RHYTHM = " ";
     
     //The current displayed screen
     private int scene;
     //The bot
     private DrawableIntro theIntro;
-    //
     //private DrawableGame theGame;
     //Student to be used
     private DrawablePlayer thePlayer;
@@ -100,24 +108,9 @@ public class BoardPanel extends JPanel implements MouseListener
     private int thePlace;
     //Font variable
     private final Font myFont;
-    //Button to throw the heaviest button
-    //private final JButton addOneToSpace;
-    //The current row of the the player(0-3)
-    private int playerRow;
-    //The current row of the bot (0-3)
-    private int botRow;
-    //The current spot of the the player(0-8)
-    private int playerSport;
-    //The current spot of the bot (0-8)
-    private int botSpot;
     //If the game is playing
     private boolean gamePlay = true;
-    //array of x postions
-    private int[] xPositions;
-    //array of y positons
-    private int[] yPositions;
-    private final int spaceSize = 20;
-    //
+    //create a settings object
     private Settings theSettings;
     BoardPanel()
     {
@@ -132,15 +125,17 @@ public class BoardPanel extends JPanel implements MouseListener
         //The board
         theDrawableGame = new DrawableGame();
         //The Die
-        theDice = new DrawableDie(900,160);
+        theDice = new DrawableDie(900,110);
         //The game settings
         theSettings = new Settings();
         //The player
-        thePlayer = new DrawablePlayer(20,15, Color.GREEN);
+        thePlayer = new DrawablePlayer(30,15, Color.GREEN);
         //Player Velocity
         thePlayer.setVelocity(1, 0);
+        //
+        playersturn = true;
         //The computer player
-        theBot = new DrawablePlayer(60,15,Color.RED);
+        theBot = new DrawablePlayer(70,15,Color.RED);
         myFont = new Font("Times New Roman",Font.PLAIN,28);
         addMouseListener(this); 
         
@@ -171,10 +166,9 @@ public class BoardPanel extends JPanel implements MouseListener
                 pen.setColor(textColor);
                 drawString(pen,DESCRIPTIONS[theSettings.getPlayerChoice()], 116, 320);
                 pen.setFont(headings);
-                drawString(pen,DIFFICULTY[theSettings.getDifficulty()], 510, 320);
+                drawString(pen,DIFFICULTY[theSettings.getDifficulty()], 600, 320);
                 break;
             case 1:
-                
                 break;
             case 2:
                 theDrawableGame.draw(pen);
@@ -184,9 +178,21 @@ public class BoardPanel extends JPanel implements MouseListener
                 gamePlay = true;
                 theBot.draw(pen);
                 theDice.draw(pen);
-                
-                //After game play update player location
-                //theBot.moveTo(playerLocaton(theBot));
+                pen.setColor(whitePoint);
+                pen.drawString("Player Score: " + theSettings.getPlayerPoints(), 600, 180);
+                pen.drawString("Bot Score: " + theSettings.getBotPoints(), 600, 200);
+                pen.drawString("Remaining Rounds: " + theSettings.getRound(), 600, 220);
+                pen.setColor(textColor);
+                //Pause
+                if (!playersturn)
+                {
+                    theDice.shuffle();
+                    theSettings.addBotSpace(theDice.getNumber());
+                    thePlayer.moveTo(theSettings.getPlayerPointLocation());
+                    theBot.moveTo(theSettings.getBotPointLocation());
+                    playersturn = true;
+                    this.repaint();
+                }
                 break;
             default:
                 break;
@@ -250,45 +256,77 @@ public class BoardPanel extends JPanel implements MouseListener
         //Set the mouse location as the point
         Point mouseLocation = mouseClick.getPoint();
         //More buttons
-        if(startButton.isInside(mouseLocation.x, mouseLocation.y))
+        if (scene == 0)
         {
-            scene = 2;
+            if(startButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                scene = 2;
+                thePlayer.moveTo(theSettings.getPlayerPointLocation());
+                theBot.moveTo(theSettings.getBotPointLocation());
+                JOptionPane.showMessageDialog(null, INTRO);
+            }
+            else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setSaveCode(JOptionPane.showInputDialog(null, "Progress Code:"));
+            }
+            //The difficulty
+            else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setDifficulty(1);
+            }
+            else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setDifficulty(2);
+            }
+            else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setDifficulty(3);
+            }
+            //Character buttons
+            else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setPlayerChoice(1);
+            }
+            else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setPlayerChoice(2);
+            }
+            else if(characterThreeButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setPlayerChoice(3);
+            }
+            else if(characterFourButton.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theSettings.setPlayerChoice(4);
+            }
         }
-        else if(loadButton.isInside(mouseLocation.x, mouseLocation.y))
+        else if (scene == 2)
+    {
+        if (playersturn)
         {
-            scene = 1;
+            //Check if the the is clicked
+            if(theDice.isInside(mouseLocation.x, mouseLocation.y))
+            {
+                theDice.shuffle();
+                theSettings.setRound(theSettings.getRound() - 1);
+                playersturn = false;
+                //theSettings.addPlayerSpace(1);
+                //theSettings.addBotSpace(1);
+                theSettings.addPlayerSpace(theDice.getNumber());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                thePlayer.moveTo(theSettings.getPlayerPointLocation());
+                theBot.moveTo(theSettings.getBotPointLocation());
+            }
         }
-        //The difficulty
-        else if(easyButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setDifficulty(1);
-        }
-        else if(mediumButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setDifficulty(2);
-        }
-        else if(hardButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setDifficulty(3);
-        }
-        //Character buttons
-        else if(characterOneButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setPlayerChoice(1);
-        }
-        else if(characterTwoButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setPlayerChoice(2);
-        }
-        else if(characterThreeButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setPlayerChoice(3);
-        }
-        else if(characterFourButton.isInside(mouseLocation.x, mouseLocation.y))
-        {
-            theSettings.setPlayerChoice(4);
-        }
+        
+        
+    }
         this.repaint(); 
+        
     }
 
     @Override
