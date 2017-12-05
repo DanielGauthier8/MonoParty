@@ -82,6 +82,18 @@ public class BoardSpaces{
 
         pane.setColor(textColor);
         pane.drawRect(x, y, spaceXSize, spaceYSize);
+        
+        if ((spaceIdentity % 2) == 0)
+        {
+           pane.setColor(secondaryColor);
+           pane.fillOval(x + 40, y + 10, 50, 50);
+        }
+ 
+        else if (((spaceIdentity + 1) % 2) == 0)
+        {
+             pane.setColor(textColor);
+            pane.fillRect(x + 40, y + 10, 50, 50);
+        }
     }
 
 }
