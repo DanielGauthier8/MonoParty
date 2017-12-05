@@ -146,10 +146,10 @@ public class DrawableIntro extends Settings implements DrawableInterface{
             //Load previous game? heading
             pen.drawString("Load Previous Game:", theX + 935, 80);
             pen.setFont(text);
-            pen.drawString("The object of the game is to earn more points than the computer. You can earn points by landing on a *POINTS* space and by playing mini-games. You can lose points", theX + 142, 515);
-            pen.drawString("by landing on a *DEDUCTION* space. When it is your turn to move around the board, click on the die. After your turn is completed, the computer will automatically", theX + 142, 530);
-            pen.drawString("take it’s turn.\n You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n", theX + 142, 544);
-            pen.drawString("GOOD LUCK!", theX + 142, 562);
+            pen.drawString("The object of the game is to earn more points than the computer. You can earn points by landing on a chance space and by playing mini-games. You can lose points", theX + 142, 515);
+            pen.drawString("by landing on a chance space. Chance spaces have square and minigame spaces have circles When it is your turn to move around the board, click on the die. After your", theX + 142, 530);
+            pen.drawString("turn is completed, you will roll the die for the computer. You and the computer will each have *10* rolls, and whoever has the most points at the end will win the game.\n", theX + 141, 545);
+            pen.drawString("GOOD LUCK!", theX + 141, 565);
             pen.drawString(descriptions[super.getPlayerChoice()], theX + 152, 582);
             
             //Button Time
