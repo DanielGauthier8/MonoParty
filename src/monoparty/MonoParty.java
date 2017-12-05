@@ -19,7 +19,7 @@ public class MonoParty {
      * @param args the command line arguments
      * @throws java.lang.InterruptedException
      */
-public static void main(String[] args) throws InterruptedException
+public static void main(String[] args) throws InterruptedException, IOException
     {
         JFrame introWindow = new JFrame(); //Create window
         introWindow.setSize(1280, 720); // width x height 
@@ -40,7 +40,7 @@ public static void main(String[] args) throws InterruptedException
         projectWindow.setVisible(true); 
         playPanel.playGame();
     
-         // open the sound file as a Java input stream
+         // open the sound file as a Java input stream, Need to change sound to where you have momoParty.wav saved on your system.
         String sound = "monoParty.wav";
         InputStream in = new FileInputStream(sound);
 
