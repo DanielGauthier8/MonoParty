@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 
 
@@ -87,6 +85,7 @@ public final class DrawableGame extends Settings implements DrawableInterface{
 		while (i < bSpaces.length/4){
 			x = x + 127;
 			bSpaces[j] = new BoardSpaces(x + 0, 0, j);
+                        
 			i++;
 			j ++;
 		}
