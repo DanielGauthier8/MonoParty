@@ -88,8 +88,8 @@ public class Settings {
         botSpace = 0;
         playerPoints = 0;
         botPoints = 0;
-        difficulty = 0;
-        playerChoice = 0;
+        difficulty = 1;
+        playerChoice = 1;
         passcode = "0";
         rounds = 10;
     }
