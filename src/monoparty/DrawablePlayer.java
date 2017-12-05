@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class DrawablePlayer extends Player implements DrawableInterface{
+public class DrawablePlayer implements DrawableInterface{
     //Data Fields............................
     //The location of the drawable object
     private Point location;
@@ -19,6 +19,7 @@ public class DrawablePlayer extends Player implements DrawableInterface{
     private final int BODY_SIZE;
     //The number of wins by the student
     private int wins = 0;
+    private String initals;
     
     //Constuctors............................
     //Default constuctor
@@ -36,7 +37,8 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         yVelocity = 0;
         //Color of the shirt
         shirtColor = theColor;
-        BODY_SIZE = 15;
+        BODY_SIZE = 16;
+        initals = "AI";
     }
     
     //Methods.................................
@@ -113,6 +115,16 @@ public class DrawablePlayer extends Player implements DrawableInterface{
     public Color getColor() {
         return shirtColor;
     }
+    
+    public void setInitals(String inti)
+    {
+        initals = inti;
+    }
+    
+    public String getInitals()
+    {
+        return initals;
+    }
 
     @Override
     //Sets the color of the shirt
@@ -169,6 +181,8 @@ public class DrawablePlayer extends Player implements DrawableInterface{
         pen.fillOval(location.x+BODY_SIZE*60/150, location.y-BODY_SIZE*6/15, BODY_SIZE/5, BODY_SIZE/5);
         pen.setColor(Color.DARK_GRAY);
         //Creates font
+        pen.setFont(new Font("Monospaced", Font.BOLD, 12));
+        pen.drawString(initals, location.x+BODY_SIZE*60/260, location.y+BODY_SIZE*6/7);
         pen.setFont(new Font("Monospaced", Font.BOLD, 20));
     }
 
