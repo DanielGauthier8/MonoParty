@@ -40,7 +40,8 @@ public static void main(String[] args) throws InterruptedException, IOException
         projectWindow.setVisible(true); 
         playPanel.playGame();
     
-         // open the sound file as a Java input stream, Need to change sound to where you have momoParty.wav saved on your system.
+         // open the sound file as a Java input stream, Need to change "String sound" to where you have momoParty.wav 
+         //saved on your system.
         String sound = "monoParty.wav";
         InputStream in = new FileInputStream(sound);
 
