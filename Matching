@@ -1,0 +1,224 @@
+package monoparty;
+
+import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
+import javax.swing.*;
+import static java.util.Collections.*;
+
+import javax.swing.JButton;
+
+public class Match extends JFrame implements ActionListener {
+    /**
+     * parts of code taken from:
+     * https://www.java-forums.org/awt-swing/19997-help-make-memory-game.html
+     */
+	
+    private static final long serialVersionUID = 1L;
+    private JButton[] gameBtn = new JButton[24];
+    private ArrayList<Integer> gameList = new ArrayList<Integer>();
+    private int counter = 0;
+    private int[] btnID = new int[2];
+    private int[] btnValue = new int[2];
+    
+    int points = 0;
+    
+    //Start y
+    private int theX;
+    //Start y
+    private int theY;
+    /*
+     //The max x
+    private int maxX;
+    //The max y
+    private int maxY;
+    //Font variable
+    private final Font headings;
+    //Font variable
+    private final Font text;
+    //The main game color
+    private final Color primaryColor;
+    //Secondary color
+    private final Color secondaryColor;
+    //Accent or tertiary color
+    private final Color accentColor;
+    //The text color
+    private final Color textColor;
+    //White point
+    private final Color whitePoint;
+    */
+    public Match() {
+        init();
+        drawMatch();
+        setArrayListText();
+       // setTitle("Matching");
+        setSize(1280, 720);
+        setVisible(true);
+    }
+    
+    public void drawMatch() {
+        Panel gamePnl = new Panel();
+        gamePnl.setLayout(new GridLayout(6,4));
+        for (int i = 0; i < gameBtn.length; i++) {
+            gamePnl.add(gameBtn[i]);
+        }
+ 
+        Panel buttonPnl = new Panel();
+        buttonPnl.setLayout(new GridLayout(1, 0));
+ 
+        add(gamePnl, BorderLayout.CENTER);
+        add(buttonPnl, BorderLayout.SOUTH);
+ 
+    }
+    public void init() {
+        for (int i = 0; i < gameBtn.length; i++) {
+            gameBtn[i] = new JButton();
+            gameBtn[i].setFont(new Font("Times New Roman", Font.BOLD, 30));
+            gameBtn[i].addActionListener(this);
+        }
+    }
+    
+    public void setArrayListText() {
+        for (int i = 0; i < 2; i++) {
+            for (int ii = 1; ii < (gameBtn.length / 2) + 1; ii++) {
+                gameList.add(ii);
+            }
+        }
+        shuffle(gameList);
+    }
+ 
+    public boolean isMatch() {
+        if (btnValue[0] == btnValue[1]) {
+            return true;
+        }
+        return false;
+    }
+    public int points(boolean match) {
+    	if(isMatch() == true){
+    		points += 15;
+        	System.out.print(points);
+    	}
+    	return points;
+    }
+ 
+    
+    public void actionPerformed(ActionEvent e) {
+    	
+        for (int i = 0; i < gameBtn.length; i++) {
+            if (gameBtn[i] == e.getSource()) {
+                gameBtn[i].setText("" + gameList.get(i));
+                gameBtn[i].setEnabled(false);
+                counter++;
+                if (counter == 3) {
+                    if (isMatch()) {
+                        gameBtn[btnID[0]].setEnabled(false);
+                        gameBtn[btnID[1]].setEnabled(false);
+                    } else {
+                        gameBtn[btnID[0]].setEnabled(true);
+                        gameBtn[btnID[0]].setText("");
+                        gameBtn[btnID[1]].setEnabled(true);
+                        gameBtn[btnID[1]].setText("");
+                    }
+                    counter = 1;
+                }
+                if (counter == 1) {
+                    btnID[0] = i;
+                    btnValue[0] = gameList.get(i);
+                }
+                if (counter == 2) {
+                    btnID[1] = i;
+                    btnValue[1] = gameList.get(i);
+                }
+            }
+        }
+    }
+    
+    @Override
+    public int getX() {
+        return theX;
+    }
+
+    @Override
+    public int getY() {
+        return theY;
+    }
+/*
+    @Override
+    public void moveTo(int absX, int absY) {
+        theX = absX;
+        theY = absY;
+    }
+
+    @Override
+    public void moveBy(int dX, int dY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void move() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getVelocityX() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getVelocityY() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setVelocity(double dvX, double dvY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Color getColor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setColor(Color theColor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void draw(Graphics pen) {
+        
+        
+        //Background
+        pen.setColor(primaryColor);
+            pen.fillRect(theX + 0, 0, maxX, maxY);
+      
+        //Areas
+        pen.setColor(secondaryColor);
+  
+        pen.setColor(whitePoint);
+            //The entering box
+           // pen.fillRect(theX + 950, 120, 200, 110);
+            
+        pen.setColor(textColor);
+            pen.setFont(headings);
+            //welcome
+            pen.drawString("Welcome to Matching!", theX + 520, 30);
+            //Instruction heading
+            pen.drawString("Instructions:", theX + 132, 485);
+            pen.setFont(text);
+            pen.drawString("DIRECTIONS", theX + 142, 562);
+
+
+            //Button Time
+            
+    }
+    */
+    public void mouseClicked(MouseEvent mouseClick) {
+
+        Point mouseLocation = mouseClick.getPoint();
+    }
+}
+
+    
