@@ -5,7 +5,12 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -47,6 +52,13 @@ public class BoardPanel extends JPanel implements MouseListener
     private final Color secondaryColor = new Color(116,175,173);
     private final Color accentColor = new Color(217,133,59);
     private final Color whitePoint = new Color(236,236,234);
+
+    
+   // static GameObject[] squareArray = new GameObject[30];
+     public static final int WINDOW_WIDTH = 1280;
+    public static final int WINDOW_HEIGHT = 720;
+     long invulTimeStamp;
+                long currentTime;
 
     //Game dialoge
     private final String[] DIFFICULTY = new String[] { 
@@ -110,18 +122,18 @@ public class BoardPanel extends JPanel implements MouseListener
     
     
    
-    static String MATCH = "                                 In this mini-game, you will be trying to find the matches in the flipped over cards on the screen."
+    private static String MATCH = "                                 In this mini-game, you will be trying to find the matches in the flipped over cards on the screen."
       + "\n           If you click on two different cards and pictures under the cards are the exact same, you have found a match and earn a point."
       + "\n                   If the pictures do not match, the cards will flip back over. The mini-game will end when the timer stops."
       + "\n                                       The number of points earned will be added to the overall score.";
-    static String PONG = "Who doesn't like a good pong game.";
-    static String DODGER = "                     This is a single player game. In this mini-game, objects will fall from the top of the screen to the bottom."
+    private static String PONG = "Who doesn't like a good pong game.";
+    private static String DODGER = "                     This is a single player game. In this mini-game, objects will fall from the top of the screen to the bottom."
       + "\n     You will have to avoid being hit by the fallen objects. The timer will give you *30* seconds to dodge as many objects as you can."
       + "\n                                  When the timer ends, you will earn *2* points per object dodged.";
-    static String INTRO = "You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n" +
+    private static String INTRO = "You and the computer will go around the board *10* times, and whoever has the most points at the end will win the game.\n" +
 "                                        Start the game by rolling the dice.  After your turn don't forget to roll the die for the bot.\n"
             + "                                                                                           GOOD LUCK!";
-    static String RHYTHM = "Moving to that inner rythm.!";
+    private static String RHYTHM = "Moving to that inner rythm.!";
     
     //The current displayed screen
     private int scene;
@@ -225,8 +237,80 @@ public class BoardPanel extends JPanel implements MouseListener
                 pen.drawString("Bot Score: " + theSettings.getBotPoints(), 600, 200);
                 break;
             case 3:
+            {
+                DodgerGame game = new DodgerGame();
+                
+                JFrame frame = new JFrame();		//creates new jframe
+                frame.add(game);
+                frame.setVisible(true);
+                frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.setTitle("Dodger Mini Game");
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+                
+                Instant instant = Instant.now();
+                invulTimeStamp = 0;
+                currentTime = 0;
+                //game.paint(pen);
+                while (game.getPlayer().getLives() > 0 && currentTime < 10) {
+                    while(currentTime - invulTimeStamp < 3) {
+                        instant = Instant.now();
+                        currentTime = instant.getEpochSecond();
+                        game.fallingUpdate();
+                        game.repaint();
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    game.repaint();
+                    game.getPlayer().setInvulnerable(false);
+                    game.getPlayer().setColor(Color.red);
+
+                    while(!game.getPlayer().getInvulnerable()) {
+                        for (GameObject squareArray1 : game.getArray()) {
+                            if (squareArray1.collisionDetection(game.getPlayer())) {
+                                game.getPlayer().subtractLife();
+                                game.getPlayer().setInvulnerable(true);
+                                invulTimeStamp = instant.getEpochSecond();
+                                instant = Instant.now();
+                                game.getPlayer().setColor(Color.gray);
+                                break;
+                            }
+                        }
+                       // game.repaint();
+                        DodgerGame.pointDetection();
+                        game.fallingUpdate();
+                        game.repaint();
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                       // game.repaint();
+                    }
+                }
+               // frame.setVisible(false);
+        //System.out.println(points);
+                /*
+                try {
+                    theSettings.addPlayerPoints(DodgerGame.run());
+                    Thread.sleep(1100);
+                    scene = 2;
+                } catch (InterruptedException ex) {
+                    System.out.println("Falied");
+                }*/
+                
+            }
             
+                scene = 1;
+                this.repaint();
             break;
+             case 4:
+                 
+                 break;
             default:
                 break;
         }
@@ -343,21 +427,21 @@ public class BoardPanel extends JPanel implements MouseListener
                     //if even then mini game
                     else
                     {
-                       randomNum = (int) Math.ceil(Math.random() * 3);
+                       randomNum = (int) Math.ceil(Math.random() * 2);
+                       randomNum = 1;
                         switch (randomNum) {
                         //minigame 1
                             case 1:
                                 JOptionPane.showMessageDialog(null, MATCH);
+                                //scene = 5;
                                 break;
                         //minigame 2
                             case 2:
                                 JOptionPane.showMessageDialog(null, DODGER);
-                               
+                                scene = 3;
                                 break;
                         //minigame 3
                             default:
-                                JOptionPane.showMessageDialog(null, PONG);
-                        //minigame 4
                             break;
                         }
                     }
@@ -430,7 +514,11 @@ public class BoardPanel extends JPanel implements MouseListener
         }
         this.repaint();
     }
-
+    public int getScene()
+    {
+        return scene;
+    }
+    
     @Override
     public void mousePressed(MouseEvent mouseClick) {
      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -450,5 +538,4 @@ public class BoardPanel extends JPanel implements MouseListener
     public void mouseExited(MouseEvent mouseClick) {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
