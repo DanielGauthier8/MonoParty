@@ -56,5 +56,14 @@ public static void main(String[] args) throws InterruptedException, IOException
         projectWindow.setResizable(false);
         // open the sound file as a Java input stream
         String sound = "C:\\Users\\danoe\\Documents\\NetBeansProjects\\MonoParty\\src\\monoParty.wav";
+    
+        InputStream in = new FileInputStream(sound);
+
+        // create an audiostream from the inputstream
+        AudioStream audioStream;
+        audioStream = new AudioStream(in);
+
+        // play the audio clip with the audioplayer class
+        AudioPlayer.player.start(audioStream);
     }
 }
