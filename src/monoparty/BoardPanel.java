@@ -292,16 +292,7 @@ public class BoardPanel extends JPanel implements MouseListener
                        // game.repaint();
                     }
                 }
-               // frame.setVisible(false);
-        //System.out.println(points);
-                /*
-                try {
-                    theSettings.addPlayerPoints(DodgerGame.run());
-                    Thread.sleep(1100);
-                    scene = 2;
-                } catch (InterruptedException ex) {
-                    System.out.println("Falied");
-                }*/
+               
                 
             }
             
@@ -309,8 +300,17 @@ public class BoardPanel extends JPanel implements MouseListener
                 this.repaint();
             break;
              case 4:
-                 
-                 break;
+                Matching theMatch = new Matching();
+                //theSettings.addPlayerPoints(theMatch.points(false)*2);
+                theSettings.addPlayerPoints(400);
+                try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                          //  Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                scene = 1;
+                this.repaint();
+                break;
             default:
                 break;
         }
@@ -433,7 +433,7 @@ public class BoardPanel extends JPanel implements MouseListener
                         //minigame 1
                             case 1:
                                 JOptionPane.showMessageDialog(null, MATCH);
-                                //scene = 5;
+                                scene = 4;
                                 break;
                         //minigame 2
                             case 2:
